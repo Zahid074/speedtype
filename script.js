@@ -176,7 +176,7 @@
     let html = '';
     for(let i=0;i<target.length;i++){
       const ch = target[i];
-      const display = ch === ' ' ? '&nbsp;' : escapeHtml(ch);
+      const display = ch === ' ' ? ' ' : escapeHtml(ch);
       let cls = 'ch';
       if(typedChars[i] === true) cls += ' correct';
       else if(typedChars[i] === false) cls += ' incorrect';
