@@ -1,4 +1,4 @@
-  :root{
+:root{
     --bg: #12121c;
     --bg-2: #0d0d15;
     --panel: #1b1b29;
@@ -222,6 +222,12 @@
     user-select:none;
     padding:6px 2px;
     min-height:120px;
+    width:100%;
+    max-width:100%;
+    white-space:normal;
+    word-wrap:break-word;
+    overflow-wrap:break-word;
+    box-sizing:border-box;
   }
   #text-display .ch{position:relative; border-radius:2px;}
   #text-display .ch.correct{color:var(--ink);}
