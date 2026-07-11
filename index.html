@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpeedType — Typing Speed Trainer</title>
+<meta name="description" content="A 5-level typing speed test. Clear all five to earn the Pro badge.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="logo">
+      <div class="mark">S</div>
+      <div class="name">SPEED<span>TYPE</span></div>
+    </div>
+    <nav class="tabs">
+      <button id="tab-play" class="active">Play</button>
+      <button id="tab-info">How to use</button>
+    </nav>
+  </header>
+
+  <!-- ============ PLAY VIEW ============ -->
+  <div id="view-play" class="view active">
+
+    <div class="level-row">
+      <div class="keycaps" id="keycaps"></div>
+      <div class="pro-indicator" id="pro-indicator">☆ PRO badge not earned yet</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="label">WPM</div><div class="value wpm" id="stat-wpm">0</div></div>
+      <div class="stat"><div class="label">Accuracy</div><div class="value acc" id="stat-acc">100%</div></div>
+      <div class="stat"><div class="label">Time</div><div class="value" id="stat-time">0.0s</div></div>
+      <div class="stat"><div class="label">Errors</div><div class="value err" id="stat-err">0</div></div>
+    </div>
+
+    <div class="panel">
+      <div class="level-meta">
+        <h2 id="level-title">Level 1 — Warm Up</h2>
+        <div class="target" id="level-target">Target: 20 WPM · 85% accuracy</div>
+      </div>
+
+      <div id="text-display" tabindex="0"></div>
+      <input id="type-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+
+      <div class="hint-row">
+        <div class="hint">Click the text and just start typing · <kbd>Tab</kbd> then <kbd>Enter</kbd> to restart</div>
+        <button class="btn" id="btn-restart">Restart level</button>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="headline" id="result-headline">Result</div>
+      <div class="result-grid">
+        <div class="cell"><div class="n" id="res-wpm">0</div><div class="l">WPM</div></div>
+        <div class="cell"><div class="n" id="res-acc">0%</div><div class="l">Accuracy</div></div>
+        <div class="cell"><div class="n" id="res-time">0.0s</div><div class="l">Time</div></div>
+      </div>
+      <div class="req-note" id="res-note"></div>
+      <div class="actions">
+        <button class="btn" id="btn-retry">Try again</button>
+        <button class="btn primary" id="btn-next" style="display:none;">Next level →</button>
+      </div>
+      <div class="pro-banner" id="pro-banner" style="display:none;">🏆 Level 5 cleared — you've earned the SpeedType PRO badge!</div>
+    </div>
+  </div>
+
+  <!-- ============ INFO VIEW ============ -->
+  <div id="view-info" class="view info">
+    <h1>About SpeedType</h1>
+    <p class="lead">SpeedType is a five-stage typing trainer. Each level raises the bar on speed, accuracy, and text difficulty — clear Level 5 and you're certified Pro. Each level also draws from a small pool of passages, so reloading or retrying a level may give you a different piece of text at the same difficulty.</p>
+
+    <section class="card">
+      <h3>How a run works</h3>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><div>Pick a level from the keycaps at the top. Levels unlock in order as you clear each one.</div></div>
+        <div class="step"><div class="num">2</div><div>Click anywhere on the passage to focus it, then start typing. The timer starts on your first keystroke — not before.</div></div>
+        <div class="step"><div class="num">3</div><div>Matched characters turn white, mistakes turn red and underlined. You can keep typing past a mistake; it's still counted against your accuracy.</div></div>
+        <div class="step"><div class="num">4</div><div>Finish the passage to see your WPM, accuracy and time. Meet the level's target to unlock the next one.</div></div>
+        <div class="step"><div class="num">5</div><div>Clear Level 5's target and the PRO badge is yours for this session.</div></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>How scoring works</h3>
+      <p>Words per minute uses the standard typing-test convention of one "word" = 5 characters:</p>
+      <div class="formula">WPM = (correct characters ÷ 5) ÷ (time in minutes)</div>
+      <div class="formula">Accuracy = correct characters ÷ total characters typed × 100</div>
+      <p>Only your first keystroke over each character position counts toward accuracy — retyping a fixed mistake doesn't erase the original error, just like on a real test.</p>
+    </section>
+
+    <section class="card">
+      <h3>Level targets</h3>
+      <table class="levels">
+        <thead><tr><th>Level</th><th>Focus</th><th>Min WPM</th><th>Min accuracy</th></tr></thead>
+        <tbody id="levels-table"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h3>Tips for a better score</h3>
+      <ul>
+        <li>Keep your eyes on the passage, not your fingers — glancing down breaks rhythm more than it helps.</li>
+        <li>Don't chase speed first. Accuracy above ~95% almost always produces a higher effective WPM than rushing.</li>
+        <li>Use <kbd style="font-family:var(--mono);background:var(--key);border:1px solid var(--border);padding:2px 6px;border-radius:5px;">Restart level</kbd> freely — every attempt is untimed until your first keystroke.</li>
+        <li>Levels 4–5 mix in numbers and punctuation on purpose. Slow down slightly at symbols rather than guessing.</li>
+      </ul>
+    </section>
+
+    <footer>Built with plain HTML, CSS &amp; JavaScript — no frameworks, no dependencies.</footer>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
